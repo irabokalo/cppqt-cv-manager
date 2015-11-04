@@ -1,8 +1,11 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include<list>
+#include<functional>
+#include<iterator>
 #include <vector>
-
+using namespace std;
 // We should keep list of programmers CVs
 // For each CV we have
 //      * name field
@@ -11,67 +14,79 @@
 //      * list of previous jobs
 //      * we would like to print our CV
 
+class JobRecord
+{
+    int mStartYEar;
+    int mEndYear;
+   string  position;
+   string nameCompany;
+
+public:
+    JobRecord():mStartYEar(0), mEndYear(0), position(" "), nameCompany(" ") {}
+    JobRecord(int start, int end, string pos,string com):mStartYEar(start), mEndYear(end),position(pos),
+     nameCompany(com)
+    {}
+    bool isValid()
+    {
+        return((position!=" ")&&(nameCompany!=" ")&&(mStartYEar>1960)&&(mEndYear>1960));
+    }
+    void print()
+    {
+        cout<<mStartYEar<<" "<<mEndYear<<" "<<position<<" "<<nameCompany<<endl;
+    }
+};
+
+
 class CV
 {
+    string Mname;
+    int mBirthYear;
+    vector<string>mSkills;
+    vector<JobRecord>mPreviousJobs;
+
 public:
-    CV(const std::string &name, int birthYear, const std::string &skills, const std::string &previousJobs) :
-        mName{name}
-      , mBirthYear{birthYear}
-      , mSkills{skills}
-      , mPreviousJobs{previousJobs}
+    CV(string name, int birthYear, vector<string> skills, vector<JobRecord>mPrev) :
+        Mname(name)
+      , mBirthYear(birthYear)
+      , mSkills(skills)
+      ,mPreviousJobs(mPrev)
+{
+}
+    void addJobRecord(const JobRecord&a)
     {
-
+        mPreviousJobs.push_back(a);
     }
-
+void jobRecords()
+{
+    for(auto elem: mPreviousJobs)
+    {
+        elem.print();
+    }
+  }
     bool isValid() const
     {
-        return !mName.empty()
+        return !Mname.empty()
                 && ((mBirthYear > 1970) && (mBirthYear < 1995))
                 && !mSkills.empty()
                 && !mPreviousJobs.empty();
     }
-
-    void print() const
+    void print()
     {
-        if (isValid())
+        cout<<Mname<<" "<< mBirthYear << " "<<endl;
+        for(int i=0; i<mPreviousJobs.size(); i++)
         {
-            std::cout << mName << " (" << mBirthYear << ")" << std::endl;
-            std::cout << "=====================" << std::endl;
-            std::cout << "Skills: " << mSkills << std::endl;
-            std::cout << "Previous work record: " << mPreviousJobs << std::endl;
-            std::cout << std::endl;
+            mPreviousJobs[i].print();
+        }
+        for(int i=0; i<mSkills.size();i++)
+        {
+            cout<<mSkills[i]<<endl;
         }
     }
 
-private:
-    std::string mName;
-    int mBirthYear;
-    std::string mSkills;
-    std::string mPreviousJobs;
 };
-
-
-int main()
+void main()
 {
-    CV johnsCV {"John Jonson", 1978,"C++, Java", "IBM 1990-1995; Microsoft 1996-2002"};
 
-    CV dansCV("Dan Davidson", 1988, "C++, Java", "IBM 1996-1997");
-
-//    std::array<CV, 3> cvList {johnsCV, dansCV, {"Will Walker", 197, "C++, Java", "IBM 1990-1999; Microsoft 1999-2010"} };
-    std::vector<CV> cvList {johnsCV, dansCV, {"Will Walker", 197, "C++, Java", "IBM 1990-1999; Microsoft 1999-2010"} };
-
-    for (const auto& cv: cvList)
-    {
-        if (cv.isValid())
-        {
-            cv.print();
-        }
-        else
-        {
-            std::cout << "ERROR: CV is invalid" << std::endl;
-        }
-    }
-
-    return 0;
+    system("pause");
 }
 
