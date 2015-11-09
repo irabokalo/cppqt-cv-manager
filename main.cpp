@@ -2,8 +2,6 @@
 #include <string>
 #include <array>
 #include<list>
-#include<functional>
-#include<iterator>
 #include <vector>
 using namespace std;
 // We should keep list of programmers CVs
@@ -45,7 +43,7 @@ class CV
     vector<JobRecord>mPreviousJobs;
 
 public:
-    CV(string name, int birthYear, vector<string> skills, vector<JobRecord>mPrev) :
+    CV( string name, int birthYear, vector<string> skills, vector<JobRecord>mPrev) :
         Mname(name)
       , mBirthYear(birthYear)
       , mSkills(skills)
@@ -56,7 +54,7 @@ public:
     {
         mPreviousJobs.push_back(a);
     }
-void jobRecords()
+void jobRecords() const
 {
     for(auto elem: mPreviousJobs)
     {
@@ -73,19 +71,22 @@ void jobRecords()
     void print()
     {
         cout<<Mname<<" "<< mBirthYear << " "<<endl;
-        for(int i=0; i<mPreviousJobs.size(); i++)
+        jobRecords();
+        for(auto elem: mSkills)
         {
-            mPreviousJobs[i].print();
-        }
-        for(int i=0; i<mSkills.size();i++)
-        {
-            cout<<mSkills[i]<<endl;
+            cout<<elem<<" ";
         }
     }
 
 };
 void main()
 {
+    vector<string> Skills;
+    Skills.push_back("c++");
+    vector<JobRecord> array;
+    JobRecord men(2003,2003,"manager","microsoft");
+    array.push_back(men);
+    CV lahudra("Irachka",1998,Skills,array);
 
     system("pause");
 }
